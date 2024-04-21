@@ -47,11 +47,12 @@ class _MainAppState extends State<MainApp> {
   }
 
   void getData() async {
-    var uri = Uri.parse('https://jsonplaceholder.typicode.com/users/1');
+    var uri = Uri.parse('https://jsonplaceholder.typicode.com/users');
 
     Response response = await get(uri);
-    setState(() {
-       title = jsonDecode(response.body)['address']['geo']['lat'];
-    });
+    for (var i = 0; i < 10; i++) {
+      var name = jsonDecode(response.body)[i]['name'];
+      print(name);
+    }
   }
 }
