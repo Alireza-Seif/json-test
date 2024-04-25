@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:json_test/data/model/user.dart';
 import 'package:json_test/screens/user_profile_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,35 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 28),
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (user == null) {
-                    return;
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserProfileScreen(
-                        user: user,
-                      ),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'click to get data',
-                  style: TextStyle(fontSize: 28),
-                ),
-              ),
-            ),
-          ],
+      backgroundColor: Colors.grey[800],
+      body: const SafeArea(
+        child: Center(
+          child:  SpinKitSpinningLines(
+            color: Colors.red,
+            size: 80.0,
+          ),
         ),
       ),
     );
@@ -70,6 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
     String city = jsonDecode(response.body)['address']['city'];
     String phone = jsonDecode(response.body)['phone'];
 
-    user = User(id, name, username, city, phone);
+    User user = User(id, name, username, city, phone);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserProfileScreen(
+          user: user,
+        ),
+      ),
+    );
   }
 }
