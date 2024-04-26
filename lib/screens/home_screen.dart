@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:json_test/data/model/user.dart';
-import 'package:json_test/screens/user_profile_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:json_test/screens/user_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,17 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
     // String phone = jsonDecode(response.body)['phone'];
 
     // User user = User(id, name, username, city, phone);
-    var response = await Dio().get('https://jsonplaceholder.typicode.com/users/1');
+    var response =
+        await Dio().get('https://jsonplaceholder.typicode.com/users/1');
     print(response.data['name']);
 
     var jsonMapObject = response.data;
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => UserProfileScreen(
-    //       user: user,
-    //     ),
-    //   ),
-    // );
+    var user = User.fromMapJson(jsonMapObject);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserProfileScreen(
+          user: user,
+        ),
+      ),
+    );
   }
 }
