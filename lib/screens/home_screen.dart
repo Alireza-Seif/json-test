@@ -28,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[800],
       body: const SafeArea(
         child: Center(
-          child: SpinKitSpinningLines(
+            child: SpinKitSpinningLines(
             color: Colors.blue,
             size: 80.0,
           ),
-        ),
+            ),
       ),
     );
   }
@@ -49,16 +49,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // User user = User(id, name, username, city, phone);
     var response =
-        await Dio().get('https://jsonplaceholder.typicode.com/users/1');
-    print(response.data['name']);
+        await Dio().get('https://jsonplaceholder.typicode.com/users');
 
-    var jsonMapObject = response.data;
-    var user = User.fromMapJson(jsonMapObject);
+    List<User> userList = response.data
+        .map((jsonMapObject) => User.fromMapJson(jsonMapObject))
+        .toList()
+        .cast<User>();
+    userList.forEach((element) {
+      print(element.name);
+    });
+    print(userList);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => UserProfileScreen(
-          user: user,
+          user: userList ,
         ),
       ),
     );
