@@ -28,42 +28,30 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[800],
       body: const SafeArea(
         child: Center(
-            child: SpinKitSpinningLines(
+          child: SpinKitSpinningLines(
             color: Colors.blue,
             size: 80.0,
           ),
-            ),
+        ),
       ),
     );
   }
 
   void getData() async {
-    // var uri = Uri.parse('https://jsonplaceholder.typicode.com/users/1');
-
-    // Response response = await get(uri);
-    // int id = jsonDecode(response.body)['id'];
-    // String name = jsonDecode(response.body)['name'];
-    // String username = jsonDecode(response.body)['username'];
-    // String city = jsonDecode(response.body)['address']['city'];
-    // String phone = jsonDecode(response.body)['phone'];
-
-    // User user = User(id, name, username, city, phone);
     var response =
         await Dio().get('https://jsonplaceholder.typicode.com/users');
 
     List<User> userList = response.data
-        .map((jsonMapObject) => User.fromMapJson(jsonMapObject))
-        .toList()
-        .cast<User>();
-    userList.forEach((element) {
-      print(element.name);
-    });
-    print(userList);
+        .map<User>(
+          (jsonMapObject) => User.fromMapJson(jsonMapObject),
+        )
+        .toList();
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => UserProfileScreen(
-          user: userList ,
+          user: userList,
         ),
       ),
     );
